@@ -6,6 +6,7 @@
 *.lo
 *.o
 *.obj
+*.pdb 
 
 # Precompiled Headers
 *.gch
@@ -36,3 +37,5 @@ x64/
 *.sln
 *.filters
 *.user
+
+*TituSignals/Debug/
