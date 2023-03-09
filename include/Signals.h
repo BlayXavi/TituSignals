@@ -12,7 +12,7 @@ class Signal
 public:
 
 	typedef std::function<void(Args...)> Listener;
-	typedef std::function<void(Args..., uint8*)> ListenerContext;
+	typedef std::function<void(Args..., uint8_t*)> ListenerContext;
 
 	virtual ~Signal() { m_Listeners.clear(); }
 
@@ -29,13 +29,13 @@ public:
 		return m_HandlerCounter;
 	}
 
-	uint32_t AddListener(const ListenerContext& func, uint8* Context)
+	uint32_t AddListener(const ListenerContext& func, uint8_t* Context)
 	{
 		m_ListenersContext.insert(std::make_pair(++m_HandlerCounter, std::make_pair(func, Context)));
 		return m_HandlerCounter;
 	}
 
-	uint32_t AddListenerOnce(const ListenerContext& func, uint8* Context)
+	uint32_t AddListenerOnce(const ListenerContext& func, uint8_t* Context)
 	{
 		m_ListenersContextOnce.insert(std::make_pair(++m_HandlerCounter, std::make_pair(func, Context)));
 		return m_HandlerCounter;
@@ -81,18 +81,18 @@ public:
 
 	//add member method as listener. Store returned integer (handler) to remove the same listener
 	template<typename T>
-	uint32_t AddListener(const T* inst, void (T::* func)(Args..., uint8*), uint8* Context)
+	uint32_t AddListener(const T* inst, void (T::* func)(Args..., uint8_t*), uint8_t* Context)
 	{
-		return AddListener([=](Args...args, uint8* C) -> void
+		return AddListener([=](Args...args, uint8_t* C) -> void
 			{
 				(const_cast<T*>(inst)->*func)(args..., C);
 			}, Context);
 	}
 
 	template<typename T>
-	uint32_t AddListenerOnce(const T* inst, void (T::* func)(Args..., uint8*), uint8* Context)
+	uint32_t AddListenerOnce(const T* inst, void (T::* func)(Args..., uint8_t*), uint8_t* Context)
 	{
-		return AddListenerOnce([=](Args...args, uint8* C) -> void
+		return AddListenerOnce([=](Args...args, uint8_t* C) -> void
 			{
 				(const_cast<T*>(inst)->*func)(args..., C);
 			}, Context);
@@ -101,18 +101,18 @@ public:
 	
 	//add member method as listener. Store returned integer (handler) to remove the same listener
 	template<typename T>
-	uint32_t AddListener(const T* inst, void (T::* func)(Args..., uint8*) const, uint8* Context)
+	uint32_t AddListener(const T* inst, void (T::* func)(Args..., uint8_t*) const, uint8_t* Context)
 	{
-		return AddListener([=](Args...args, uint8* C) -> void
+		return AddListener([=](Args...args, uint8_t* C) -> void
 			{
 				(const_cast<T*>(inst)->*func)(args..., C);
 			}, Context);
 	}
 
 	template<typename T>
-	uint32_t AddListenerOnce(const T* inst, void (T::* func)(Args..., uint8*) const, uint8* Context)
+	uint32_t AddListenerOnce(const T* inst, void (T::* func)(Args..., uint8_t*) const, uint8_t* Context)
 	{
-		return AddListenerOnce([=](Args...args, uint8* C) -> void
+		return AddListenerOnce([=](Args...args, uint8_t* C) -> void
 			{
 				(const_cast<T*>(inst)->*func)(args..., C);
 			}, Context);

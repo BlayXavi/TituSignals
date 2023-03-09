@@ -26,7 +26,7 @@ public:
 		std::cout << "PrintParams: " << i << " " << j << "  " << k << " ---- Instance Values: " << m_Int << " " << m_Float << std::endl;
 	}
 
-	void PrintWithContext(int i, int j, float k, void* Context)
+	void PrintWithContext(int i, int j, float k, uint8_t* Context)
 	{
 		float* reinterpretedContext = (float*)(Context); //retreive context
 		std::cout << "PrintParams: " << i << " " << j << "  " << k << " ---- Instance Values: " << m_Int << " " << m_Float << "------ Context: " << *reinterpretedContext << std::endl;
@@ -65,7 +65,7 @@ int main()
 	jSignal2.Dispatch(1, 2, 3.4f); //see changes on instance
 
 	float Context = 4.5f;
-	uint32_t parameterSignalHandlerContext = jSignal2.AddListener(&classA, &ClassA::PrintWithContext, (void*)(&Context)); //Stored context to retreive it later regardless of what Signal is Dispatching 
+	uint32_t parameterSignalHandlerContext = jSignal2.AddListener(&classA, &ClassA::PrintWithContext, (uint8_t*)(&Context)); //Stored context to retreive it later regardless of what Signal is Dispatching 
 	jSignal2.Dispatch(1, 2, 3.0f); //Example how Context will be reitreived independently of Signal parameters
 
 	auto handler = jSignal2.GetListener(parameterSignalHandler); //how to retrieve function pointer whit handler
